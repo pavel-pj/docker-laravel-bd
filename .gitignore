@@ -1,0 +1,22 @@
+/app/storage/*
+!/app/storage/framework/
+!/app/storage/framework/views/
+
+# Игнорировать конкретные подпапки storage
+/app/storage/framework/cache/
+/app/storage/framework/sessions/
+/app/storage/framework/testing/
+/app/storage/logs/
+
+# Игнорировать зависимости
+/app/vendor/
+/app/node_modules/
+
+# Игнорировать сборки
+/app/public/hot
+/app/public/build
+/app/public/storage
+
+# Игнорировать .env-файлы
+/app/.env
+/app/.env.*.local
