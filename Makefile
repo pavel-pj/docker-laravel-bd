@@ -10,3 +10,6 @@ first-up:
 
 bash:
 	docker compose  -f compose.dev.yaml exec app bash
+clear:
+	docker compose -f compose.dev.yaml exec app php artisan optimize
+	docker compose -f compose.dev.yaml exec app php artisan cache:clear
