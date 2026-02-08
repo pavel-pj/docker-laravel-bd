@@ -23,8 +23,13 @@
         <tbody>
             @foreach($posts as $post)
             <tr>
+              
                 <td>{{ $post->id }}</td>
-                <td>{{ $post->slug }}</td>
+                <td> 
+                  <a href="{{ route('posts.show', $post->id) }}" class="text-decoration-none">
+                        {{ $post->slug }}
+                    </a>
+                </td>
                 <td>{{ $post->text }}</td>
                 <td>
                     <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-sm btn-primary">Change</a>
