@@ -1,0 +1,40 @@
+FROM php:8.2-fpm-alpine as build
+
+# Установка зависимостей
+RUN apk add --no-cache \
+    postgresql-dev \
+    nginx \
+    supervisor
+
+# Установка расширений PHP
+RUN docker-php-ext-install pdo_pgsql pcntl
+
+# Копирование composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+# Копирование файлов приложения (из вашего docker-compose видно, что код в ./app)
+COPY ./app /var/www/html
+
+# Установка зависимостей
+RUN composer install --no-dev --optimize-autoloader
+
+# Оптимизация для продакшена
+RUN php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache
+
+# Финальный образ
+FROM php:8.2-fpm-alpine
+
+RUN apk add --no-cache nginx supervisor
+
+COPY --from=build /var/www/html /var/www/html
+COPY ./docker/nginx/default.conf /etc/nginx/http.d/default.conf
+
+WORKDIR /var/www/html
+
+EXPOSE 80 9000
+
+CMD ["php-fpm"]
