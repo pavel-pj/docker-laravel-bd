@@ -25,6 +25,7 @@ RUN php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache
 
+    
 # Финальный образ
 FROM php:8.2-fpm-alpine
 
